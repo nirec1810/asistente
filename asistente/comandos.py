@@ -1,7 +1,7 @@
 import logging
+import os
 import webbrowser
 
-import pywhatkit
 import yfinance as yf
 import wikipedia
 import pyjokes
@@ -77,7 +77,12 @@ def buscar_internet(texto):
         hablar("¿Qué quieres que busque en internet?")
         return
     hablar("Buscando en internet")
-    pywhatkit.search(consulta)
+    try:
+        import pywhatkit
+        pywhatkit.search(consulta)
+    except Exception as e:
+        logger.error("Error con pywhatkit: %s", e)
+        webbrowser.open(f"https://www.google.com/search?q={consulta}")
     hablar("Esto es lo que encontré")
 
 
@@ -87,7 +92,12 @@ def reproducir(texto):
         hablar("¿Qué quieres que reproduzca?")
         return
     hablar("Buena idea, vamos a escucharlo")
-    pywhatkit.playonyt(consulta)
+    try:
+        import pywhatkit
+        pywhatkit.playonyt(consulta)
+    except Exception as e:
+        logger.error("Error con pywhatkit: %s", e)
+        webbrowser.open(f"https://www.youtube.com/results?search_query={consulta}")
     hablar("Reproduciendo la canción")
 
 
@@ -239,7 +249,12 @@ def _buscar_internet_api(texto):
     consulta = _extraer(texto, "busca en internet", "busca internet", "buscar internet", "buscar en internet", "busca en google", "buscar en google")
     if not consulta:
         return "¿Qué quieres que busque en internet?", "waiting_input", "internet_search"
-    pywhatkit.search(consulta)
+    try:
+        import pywhatkit
+        pywhatkit.search(consulta)
+    except Exception as e:
+        logger.error("Error con pywhatkit: %s", e)
+        webbrowser.open(f"https://www.google.com/search?q={consulta}")
     return "Esto es lo que encontré", "complete", None
 
 
@@ -247,7 +262,12 @@ def _reproducir_api(texto):
     consulta = _extraer(texto, "reproduce", "reproducir", "pon", "ponme", "tocar", "toca", "poner")
     if not consulta:
         return "¿Qué quieres que reproduzca?", "waiting_input", "music_search"
-    pywhatkit.playonyt(consulta)
+    try:
+        import pywhatkit
+        pywhatkit.playonyt(consulta)
+    except Exception as e:
+        logger.error("Error con pywhatkit: %s", e)
+        webbrowser.open(f"https://www.youtube.com/results?search_query={consulta}")
     return "Buena idea, reproduciendo la canción", "complete", None
 
 
@@ -344,11 +364,21 @@ def _procesar_seguimiento_api(texto, context):
             return "Ocurrió un error al buscar en Wikipedia", "complete", None
 
     elif context == "internet_search":
-        pywhatkit.search(texto)
+        try:
+            import pywhatkit
+            pywhatkit.search(texto)
+        except Exception as e:
+            logger.error("Error con pywhatkit: %s", e)
+            webbrowser.open(f"https://www.google.com/search?q={texto}")
         return "Esto es lo que encontré", "complete", None
 
     elif context == "music_search":
-        pywhatkit.playonyt(texto)
+        try:
+            import pywhatkit
+            pywhatkit.playonyt(texto)
+        except Exception as e:
+            logger.error("Error con pywhatkit: %s", e)
+            webbrowser.open(f"https://www.youtube.com/results?search_query={texto}")
         return "Buena idea, reproduciendo la canción", "complete", None
 
     elif context == "stock_price":
