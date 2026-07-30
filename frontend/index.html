@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adam — Asistente de Voz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-mark">◆</span>
+          <span class="logo-text">Elvira</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Cerrar menú">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="commands-nav">
+        <div class="command-category">
+          <h3 class="category-label">Navegación</h3>
+          <ul class="command-list">
+            <li class="command-item" data-command="abre youtube">
+              <span class="command-icon">▶</span>
+              <span class="command-name">Abrir YouTube</span>
+            </li>
+            <li class="command-item" data-command="abre google">
+              <span class="command-icon">◎</span>
+              <span class="command-name">Abrir navegador</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="command-category">
+          <h3 class="category-label">Información</h3>
+          <ul class="command-list">
+            <li class="command-item" data-command="qué hora es">
+              <span class="command-icon">◷</span>
+              <span class="command-name">Consultar hora</span>
+            </li>
+            <li class="command-item" data-command="qué día es">
+              <span class="command-icon">◈</span>
+              <span class="command-name">Consultar fecha</span>
+            </li>
+            <li class="command-item" data-command="busca en wikipedia">
+              <span class="command-icon">w</span>
+              <span class="command-name">Buscar en Wikipedia</span>
+            </li>
+            <li class="command-item" data-command="busca en internet">
+              <span class="command-icon">◉</span>
+              <span class="command-name">Buscar en internet</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="command-category">
+          <h3 class="category-label">Entretenimiento</h3>
+          <ul class="command-list">
+            <li class="command-item" data-command="reproduce">
+              <span class="command-icon">♫</span>
+              <span class="command-name">Reproducir música</span>
+            </li>
+            <li class="command-item" data-command="chiste">
+              <span class="command-icon">☺</span>
+              <span class="command-name">Contar un chiste</span>
+            </li>
+            <li class="command-item" data-command="precio de las acciones">
+              <span class="command-icon">$</span>
+              <span class="command-name">Precio de acciones</span>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span class="status-text">En línea</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="main-header">
+        <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="header-info">
+          <span class="header-label">Asistente de voz</span>
+          <span class="header-status" id="headerStatus">Listo para escuchar</span>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="clearChat" aria-label="Limpiar chat">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 5h14M5 5V3.5A1.5 1.5 0 016.5 2h5A1.5 1.5 0 0113 3.5V5m2 0v9.5a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 013 14.5V5h12z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="chat-area" id="chatArea">
+        <div class="waveform-container">
+          <canvas id="waveform" width="800" height="200"></canvas>
+          <div class="waveform-label">
+            <span class="waveform-state" id="waveformState">En espera</span>
+          </div>
+        </div>
+
+        <div class="welcome-msg">
+          <h1 class="welcome-title">Hola, soy <span class="accent">Elvira</span></h1>
+          <p class="welcome-sub">Tu asistente de voz. Di mi nombre o escribe un comando para comenzar.</p>
+          <div class="wake-word">
+            <span class="wake-label">Palabra clave</span>
+            <span class="wake-value">"Elvira"</span>
+          </div>
+        </div>
+
+        <div class="messages" id="messages"></div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-wrapper">
+          <button class="voice-btn" id="voiceBtn" aria-label="Activar micrófono">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <rect x="7" y="2" width="8" height="12" rx="4" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M4 10a7 7 0 0014 0M11 17v3M8 20h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <input
+            type="text"
+            class="text-input"
+            id="textInput"
+            placeholder="Escribe un comando..."
+            autocomplete="off"
+          >
+          <button class="send-btn" id="sendBtn" aria-label="Enviar">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 9l14-7-4 16-4-6-6-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="input-hint">
+          Presiona <kbd>Enter</kbd> para enviar · <kbd>Ctrl+K</kbd> para limpiar
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

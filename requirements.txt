@@ -1,0 +1,12 @@
+pyaudio
+pyttsx3
+gTTS
+edge-tts
+pygame
+SpeechRecognition
+pywhatkit
+yfinance
+pyjokes
+wikipedia
+flask
+flask-cors

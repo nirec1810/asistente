@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: adam-assistant
+    runtime: docker
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+    healthCheckPath: /api/status
